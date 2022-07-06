@@ -3,27 +3,24 @@ import React from "react";
 import colors from "../config/colors";
 
 interface AppButtonProps {
-  color?: string;
-  onPress: () => void;
+  color: string;
+  onPress?: () => void;
   title: string;
 }
 
-export default function AppButton({
-  title,
-  onPress,
-  color = colors.primary,
-}: AppButtonProps) {
+export default function AppButton({ title, onPress, color }: AppButtonProps) {
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: color }]}
+      style={[styles.button, { backgroundColor: colors[color] }]}
       onPress={onPress}
-    ></TouchableOpacity>
+    >
+      <Text style={styles.text}>{title}</Text>
+    </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: colors.primary,
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
