@@ -1,42 +1,90 @@
-import { StyleSheet, Text, View, Image, ImageProps } from "react-native";
 import React from "react";
+import {
+  GestureResponderEvent,
+  Image,
+  ImageSourcePropType,
+  StyleSheet,
+  TouchableHighlight,
+  View,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  GestureHandlerRootView,
+  Swipeable,
+} from "react-native-gesture-handler";
 import AppText from "./AppText";
 import colors from "../config/colors";
 
-interface CardProps {
+type ListItemProps = {
   title: string;
-  subTitle: string;
-  image: ImageProps["source"];
-}
-const ListItem = ({ title, subTitle, image }: CardProps) => {
+  subtitle?: string;
+  image?: ImageSourcePropType;
+  onPress?: (event: GestureResponderEvent) => void;
+  renderRightActions?: any;
+  IconComponent?: React.ReactNode;
+  showChevrons?: boolean;
+};
+export const ListItem = ({
+  title,
+  subtitle,
+  image,
+  IconComponent,
+  onPress,
+  renderRightActions,
+  showChevrons = false,
+}: ListItemProps) => {
   return (
-    <View style={styles.container}>
-      <Image style={styles.image} source={image} />
-      <View>
-        <AppText style={styles.title}>{title}</AppText>
-        <AppText style={styles.subTitle}>{subTitle}</AppText>
-      </View>
-    </View>
+    <GestureHandlerRootView>
+      <Swipeable renderRightActions={renderRightActions}>
+        <TouchableHighlight onPress={onPress} underlayColor={colors.light}>
+          <View style={styles.container}>
+            {IconComponent}
+            {image && <Image style={styles.image} source={image} />}
+            <View style={styles.detailsContainer}>
+              <AppText style={styles.title} numberOfLines={1}>
+                {title}
+              </AppText>
+              {subtitle && (
+                <AppText style={styles.subtitle} numberOfLines={2}>
+                  {subtitle}
+                </AppText>
+              )}
+            </View>
+            {showChevrons && (
+              <MaterialCommunityIcons
+                name="chevron-right"
+                size={30}
+                color={colors.medium}
+              />
+            )}
+          </View>
+        </TouchableHighlight>
+      </Swipeable>
+    </GestureHandlerRootView>
   );
 };
 
-export default ListItem;
-
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
     flexDirection: "row",
     padding: 15,
+    backgroundColor: colors.white,
   },
   image: {
     width: 70,
     height: 70,
     borderRadius: 35,
-    marginRight: 10,
+  },
+  detailsContainer: {
+    justifyContent: "center",
+    marginLeft: 10,
+    flex: 1,
   },
   title: {
-    fontWeight: "500",
+    fontWeight: "bold",
   },
-  subTitle: {
+  subtitle: {
     color: colors.medium,
   },
 });

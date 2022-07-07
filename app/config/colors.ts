@@ -9,4 +9,5 @@ export default <Colors>{
   white: "#fff",
   medium: "#636969",
   light: "#f8f4f4",
+  danger: "#ff5252",
 };

@@ -1,19 +1,30 @@
-import { SafeAreaView, StyleSheet } from "react-native";
-import React, { ReactElement } from "react";
-import Constants from "expo-constants";
+import React from "react";
+import {
+  SafeAreaView,
+  Platform,
+  StyleSheet,
+  StatusBar,
+  View,
+} from "react-native";
 
-interface ScreenProps {
-  children: ReactElement | string;
-}
-
-const Screen = ({ children }: ScreenProps) => {
-  return <SafeAreaView style={styles.screen}>{children}</SafeAreaView>;
+type ScreenProps = {
+  children?: React.ReactNode;
+  style?: object;
 };
-
-export default Screen;
+export const Screen = ({ children, style }: ScreenProps) => {
+  return (
+    <SafeAreaView style={[styles.screen, style]}>
+      <View style={[styles.view, style]}>{children}</View>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
   screen: {
-    paddingTop: Constants.statusBarHeight,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    flex: 1,
+  },
+  view: {
+    flex: 1,
   },
 });
