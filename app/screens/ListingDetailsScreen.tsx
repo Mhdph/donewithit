@@ -2,7 +2,7 @@ import { Image, StyleSheet, View } from "react-native";
 import React from "react";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
-import ListItem from "../components/ListItem";
+import { ListItem } from "../components/ListItem";
 
 export default function ListingDetailsScreen() {
   return (
@@ -18,7 +18,7 @@ export default function ListingDetailsScreen() {
           <ListItem
             image={require("../assets/mosh.jpg")}
             title="Mahdi Parivash"
-            subTitle="5 Listings"
+            subtitle="5 Listings"
           />
         </View>
       </View>
