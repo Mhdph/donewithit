@@ -5,7 +5,8 @@ import colors from "../config/colors";
 import defaultStyles from "../config/styles";
 
 interface AppTextInput {
-  icon: any;
+  icon?: any;
+  [otherProp: string]: any;
 }
 
 const AppTextInput = ({ icon, ...otherProps }: AppTextInput) => {
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 15,
     marginVertical: 10,
+    alignItems: "center",
   },
   icon: {
     marginRight: 10,
