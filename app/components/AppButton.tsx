@@ -5,12 +5,19 @@ import colors from "../config/colors";
 interface AppButtonProps {
   color: string;
   onPress?: () => void;
+  disabled?: boolean;
   title: string;
 }
 
-export default function AppButton({ title, onPress, color }: AppButtonProps) {
+export default function AppButton({
+  title,
+  disabled,
+  onPress,
+  color,
+}: AppButtonProps) {
   return (
     <TouchableOpacity
+      disabled={disabled}
       style={[styles.button, { backgroundColor: colors[color] }]}
       onPress={onPress}
     >

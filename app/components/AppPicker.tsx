@@ -47,9 +47,13 @@ const AppPicker = ({
             />
           )}
 
-          <AppText style={styles.placeholder}>
-            {selectedItem ? selectedItem.label : placeholder}
-          </AppText>
+          {selectedItem && (
+            <AppText style={styles.text}>{selectedItem.label}</AppText>
+          )}
+
+          {!selectedItem && (
+            <AppText style={styles.placeholder}>{placeholder}</AppText>
+          )}
 
           <MaterialCommunityIcons
             name="chevron-down"

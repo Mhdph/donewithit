@@ -3,7 +3,7 @@ import React, { ReactElement } from "react";
 import { TextInputProps } from "react-native";
 import defaultStyles from "../config/styles";
 
-interface AppTextProps extends TextInputProps {
+export interface AppTextProps extends TextInputProps {
   children: ReactElement | string;
   style?: Object;
 }

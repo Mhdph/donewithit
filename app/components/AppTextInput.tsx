@@ -7,18 +7,27 @@ import defaultStyles from "../config/styles";
 interface AppTextInput {
   icon?: any;
   [otherProp: string]: any;
+  width?: number | string;
 }
 
-const AppTextInput = ({ icon, ...otherProps }: AppTextInput) => {
+const AppTextInput = ({
+  icon,
+  width = "100%",
+  ...otherProps
+}: AppTextInput) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width }]}>
       <MaterialCommunityIcons
         name={icon}
         size={20}
         color={colors.medium}
         style={styles.icon}
       />
-      <TextInput style={defaultStyles.text} {...otherProps} />
+      <TextInput
+        placeholderTextColor={defaultStyles.colors.medium}
+        style={defaultStyles.text}
+        {...otherProps}
+      />
     </View>
   );
 };
@@ -27,10 +36,9 @@ export default AppTextInput;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
+    backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
     padding: 15,
     marginVertical: 10,
     alignItems: "center",
