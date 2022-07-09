@@ -36,7 +36,7 @@ export default AppTextInput;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: defaultStyles.colors.light,
+    backgroundColor: colors.lightGray,
     borderRadius: 25,
     flexDirection: "row",
     padding: 15,
@@ -45,5 +45,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
+  },
+  text: {
+    color: colors.mediumGray,
   },
 });

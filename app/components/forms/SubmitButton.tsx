@@ -1,24 +1,13 @@
 import React from "react";
-import { GestureResponderEvent, StyleSheet } from "react-native";
 import { useFormikContext } from "formik";
+
 import AppButton from "../AppButton";
-
-const SubmitButton: React.FC<{
+interface SubmitButtonProps {
   title: string;
-  disabledIfInvalid?: boolean;
-}> = ({ title, disabledIfInvalid = false }) => {
-  const { handleSubmit, isValid, dirty } = useFormikContext();
+}
 
-  const disabled = disabledIfInvalid ? !isValid || !dirty : false;
+export default function SubmitButton({ title }: SubmitButtonProps) {
+  const { handleSubmit } = useFormikContext();
 
-  return (
-    <AppButton
-      disabled={disabled}
-      title={title}
-      onPress={() => handleSubmit()}
-      color={""}
-    />
-  );
-};
-
-export default SubmitButton;
+  return <AppButton title={title} onPress={handleSubmit} />;
+}

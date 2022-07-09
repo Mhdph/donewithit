@@ -94,23 +94,20 @@ export default AppPicker;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.lightGray,
     borderRadius: 25,
     flexDirection: "row",
     width: "100%",
-    padding: 15,
+    padding: 10, // ios : 15
     marginVertical: 10,
-    marginTop: 20,
-    alignItems: "center",
   },
   icon: {
     marginRight: 10,
   },
-  text: {
-    flex: 1,
-  },
   placeholder: {
+    color: colors.mediumGray,
     flex: 1,
-    color: colors.medium,
+    padding: 8,
   },
+  text: { flex: 1 },
 });

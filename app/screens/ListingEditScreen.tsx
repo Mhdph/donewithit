@@ -35,7 +35,7 @@ const categories = [
   { label: "Games", icon: "cards", backgroundColor: colors.green, value: 2 },
   {
     label: "Clothing",
-    icon: "show-heel",
+    icon: "shoe-heel",
     backgroundColor: colors.cyan,
     value: 3,
   },
@@ -73,7 +73,7 @@ const ListingEditScreen = () => {
         initialValues={() => console.log("salam")}
         onSubmit={() => console.log("salam")}
       >
-        <FormField maxLength={255} name="title" placeholade="Title"></FormField>
+        <FormField maxLength={255} name="title" placeholder="Title" />
         <FormField
           maxLength={8}
           name="price"
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
     flexDirection: "column",
+    margin: 10,
   },
   error: {
     marginTop: 5,
