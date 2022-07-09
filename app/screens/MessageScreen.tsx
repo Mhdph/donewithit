@@ -1,9 +1,9 @@
 import { StyleSheet, FlatList, View } from "react-native";
 import React, { useState } from "react";
-import ListItemSeprator from "../components/ListItemSeprator";
-import ListItemDeleteAction from "../components/ListItemDeleteAction";
+import ListItemSeprator from "../components/lists/ListItemSeprator";
+import ListItemDeleteAction from "../components/lists/ListItemDeleteAction";
 import { Screen } from "../components/Screen";
-import { ListItem } from "../components/ListItem";
+import { ListItem } from "../components/lists/ListItem";
 
 interface Message {
   id: number;

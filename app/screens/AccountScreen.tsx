@@ -2,9 +2,9 @@ import { StyleSheet, FlatList, View, Text } from "react-native";
 import React from "react";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
-import ListItemSeprator from "../components/ListItemSeprator";
+import ListItemSeprator from "../components/lists/ListItemSeprator";
 import { Screen } from "../components/Screen";
-import { ListItem } from "../components/ListItem";
+import { ListItem } from "../components/lists/ListItem";
 
 interface MenuItem {
   id: number;

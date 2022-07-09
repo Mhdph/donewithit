@@ -3,21 +3,25 @@ import React from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AppText from "./AppText";
 
-interface Category {
+interface Item {
   label: string;
-  value?: number;
+  value: number;
+}
+
+interface Category {
+  items: Item;
   onPress: () => void;
 }
 
-const PickerItemComponent = ({ label, onPress }: Category) => {
+const PickerItem = ({ items, onPress }: Category) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <AppText style={styles.text}>{label}</AppText>
+      <AppText style={styles.text}>{items.label}</AppText>
     </TouchableOpacity>
   );
 };
 
-export default PickerItemComponent;
+export default PickerItem;
 
 const styles = StyleSheet.create({
   text: {

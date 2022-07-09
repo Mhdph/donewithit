@@ -8,6 +8,8 @@ import {
   AppFormPicker,
 } from "../components/forms";
 import { Screen } from "../components/Screen";
+import CategoryPickerItem from "../components/CategoryPickerItem";
+import colors from "../config/colors";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -17,9 +19,50 @@ const validationSchema = Yup.object().shape({
 });
 
 const categories = [
-  { label: "Furniture", value: 1 },
-  { label: "Clothing", value: 2 },
-  { label: "Camera", value: 3 },
+  {
+    backgroundColor: colors.red,
+    icon: "floor-lamp",
+    label: "Furniture",
+    value: 1,
+  },
+  { label: "Cars", icon: "car", backgroundColor: colors.orange, value: 1 },
+  {
+    label: "Cameras",
+    icon: "camera",
+    backgroundColor: colors.yellow,
+    value: 1,
+  },
+  { label: "Games", icon: "cards", backgroundColor: colors.green, value: 2 },
+  {
+    label: "Clothing",
+    icon: "show-heel",
+    backgroundColor: colors.cyan,
+    value: 3,
+  },
+  {
+    label: "Sports",
+    icon: "basketball",
+    backgroundColor: colors.brightBlue,
+    value: 3,
+  },
+  {
+    label: "Movies & Music",
+    icon: "headphones",
+    backgroundColor: colors.softBlue,
+    value: 3,
+  },
+  {
+    label: "Books",
+    icon: "book-open-variant",
+    backgroundColor: colors.purple,
+    value: 2,
+  },
+  {
+    label: "Other",
+    icon: "folder-outline",
+    backgroundColor: colors.grey,
+    value: 1,
+  },
 ];
 
 const ListingEditScreen = () => {
@@ -38,9 +81,11 @@ const ListingEditScreen = () => {
           keyboardType="numeric"
         />
         <AppFormPicker
+          numberofColumns={3}
           name="category"
           placeholder="Category"
           items={categories}
+          PickerItemComponent={CategoryPickerItem}
         />
         <FormField
           name="description"
@@ -49,7 +94,6 @@ const ListingEditScreen = () => {
           numberOfLines={3}
           maxLength={255}
         />
-
         <SubmitButton title="POST" />
       </AppForm>
     </Screen>

@@ -6,12 +6,12 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import React, { useState } from "react";
+import React, { ElementType, useState } from "react";
 import AppText from "./AppText";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import colors from "../config/colors";
 import { Screen } from "./Screen";
-import PickerItemComponent from "./PickerItemComponent";
+import PickerItem from "./PickerItem";
 
 interface Category {
   label: string;
@@ -24,6 +24,8 @@ interface AppPicker {
   items: Category[];
   selectedItem: Category;
   onSelectItem: Function;
+  PickerItemComponent: ElementType;
+  numberofColumns: number;
 }
 
 const AppPicker = ({
@@ -31,7 +33,9 @@ const AppPicker = ({
   placeholder,
   items,
   onSelectItem,
+  numberofColumns = 1,
   selectedItem,
+  PickerItemComponent = PickerItem,
 }: AppPicker) => {
   const [modalVisible, setModalVisible] = useState(false);
   return (
@@ -66,10 +70,12 @@ const AppPicker = ({
         <Screen>
           <Button title="Close" onPress={() => setModalVisible(false)} />
           <FlatList
+            numColumns={numberofColumns}
             data={items}
             keyExtractor={(item) => item.value.toString()}
             renderItem={({ item }) => (
               <PickerItemComponent
+                item={item}
                 label={item.label}
                 onPress={() => {
                   onSelectItem(item);
