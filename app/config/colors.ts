@@ -1,5 +1,5 @@
 type Colors = {
-  [key: string]: string | undefined;
+  [key: string]: string;
 };
 
 export default <Colors>{
