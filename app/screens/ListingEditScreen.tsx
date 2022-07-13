@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
     flexDirection: "column",
-    margin: 10,
+    margin: 5,
   },
   error: {
     marginTop: 5,

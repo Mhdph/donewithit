@@ -3,6 +3,10 @@ import React from "react";
 import { Screen } from "../components/Screen";
 import Card from "../components/Card";
 import colors from "../config/colors";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import routes from "../navigation/routes";
+
+interface WelcomeProps extends NativeStackScreenProps<any> {}
 
 const listings = [
   {
@@ -19,7 +23,7 @@ const listings = [
   },
 ];
 
-const ListingsScreen = () => {
+const ListingsScreen = ({ navigation }: WelcomeProps) => {
   return (
     <Screen style={styles.screen}>
       <FlatList
@@ -27,9 +31,11 @@ const ListingsScreen = () => {
         keyExtractor={(listings) => listings.id.toString()}
         renderItem={({ item }) => (
           <Card
+            key={item.title}
             title={item.title}
             subTitle={"$" + item.price}
             image={item.image}
+            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
           />
         )}
       />
@@ -41,7 +47,8 @@ export default ListingsScreen;
 
 const styles = StyleSheet.create({
   screen: {
-    padding: 20,
+    padding: 10,
+    overflow: "scroll",
     backgroundColor: colors.light,
   },
 });
