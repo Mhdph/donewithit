@@ -5,6 +5,7 @@ import Icon from "../components/Icon";
 import ListItemSeprator from "../components/lists/ListItemSeprator";
 import { Screen } from "../components/Screen";
 import { ListItem } from "../components/lists/ListItem";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 interface MenuItem {
   id: number;
@@ -13,6 +14,7 @@ interface MenuItem {
     name: string;
     backgroundColor?: string;
   };
+  targetScreen: string;
 }
 
 const menuItems: MenuItem[] = [
@@ -23,6 +25,7 @@ const menuItems: MenuItem[] = [
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
     },
+    targetScreen: "Listing",
   },
   {
     id: 2,
@@ -31,6 +34,7 @@ const menuItems: MenuItem[] = [
       name: "email",
       backgroundColor: colors.secondary,
     },
+    targetScreen: "Messages",
   },
 ];
 
@@ -39,7 +43,9 @@ const user = {
   email: "mahdi@gmail.com",
 };
 
-const AccountScreen = () => {
+interface AccountProps extends NativeStackScreenProps<any> {}
+
+const AccountScreen = ({ navigation }: AccountProps) => {
   return (
     <Screen style={styles.screen}>
       <View>
@@ -63,6 +69,7 @@ const AccountScreen = () => {
                   name={item.icon.name}
                 />
               }
+              onPress={() => navigation.navigate(item.targetScreen)}
             />
           )}
           ItemSeparatorComponent={ListItemSeprator}
