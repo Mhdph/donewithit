@@ -1,111 +1,136 @@
-import { StyleSheet } from "react-native";
-import React from "react";
-import * as Yup from "yup";
+import React, { useState } from "react";
 import {
   AppForm,
   FormField,
   SubmitButton,
   AppFormPicker,
 } from "../components/forms";
+import FormImagePicker from "../components/forms/FormImagePicker";
+import listingsApi from "../api/listings";
+import { FormikHelpers } from "formik";
+import { useLocation } from "../hooks/useLocation";
+import { ListingEditSchema, ListingEditType } from "../models/listings";
 import { Screen } from "../components/Screen";
 import CategoryPickerItem from "../components/CategoryPickerItem";
-import colors from "../config/colors";
-import FormImagePicker from "../components/forms/FormImagePicker";
-import { useLocation } from "../hooks/useLocation";
+import { UploadScreen } from "./UploadScreen";
 
-const validationSchema = Yup.object().shape({
-  title: Yup.string().required().min(1).label("Title"),
-  price: Yup.number().required().min(1).max(10000).label("Price"),
-  category: Yup.object().required().nullable(true).label("Category"),
-  description: Yup.string().label("Description"),
-  images: Yup.array().min(1, "Please select at least one image"),
-});
+const validationSchema = ListingEditSchema;
 
 const categories = [
   {
-    backgroundColor: colors.red,
-    icon: "floor-lamp",
-    label: "Furniture",
+    label: "Funiture",
     value: 1,
+    icon: { name: "floor-lamp", bgColor: "#fc5c65" },
   },
-  { label: "Cars", icon: "car", backgroundColor: colors.orange, value: 1 },
-  {
-    label: "Cameras",
-    icon: "camera",
-    backgroundColor: colors.yellow,
-    value: 1,
-  },
-  { label: "Games", icon: "cards", backgroundColor: colors.green, value: 2 },
   {
     label: "Clothing",
-    icon: "shoe-heel",
-    backgroundColor: colors.cyan,
+    value: 5,
+    icon: { name: "shoe-heel", bgColor: "#2bcbba" },
+  },
+  {
+    label: "Cameras",
     value: 3,
+    icon: { name: "camera", bgColor: "#fed330" },
+  },
+  { label: "Cars", value: 2, icon: { name: "car", bgColor: "#fd9644" } },
+  {
+    label: "Games",
+    value: 4,
+    icon: { name: "cards", bgColor: "#26de81" },
   },
   {
     label: "Sports",
-    icon: "basketball",
-    backgroundColor: colors.brightBlue,
-    value: 3,
+    value: 6,
+    icon: { name: "basketball", bgColor: "#45aaf2" },
   },
   {
-    label: "Movies & Music",
-    icon: "headphones",
-    backgroundColor: colors.softBlue,
-    value: 3,
+    label: "Movies and music",
+    value: 7,
+    icon: { name: "headphones", bgColor: "#4b7bec" },
   },
   {
     label: "Books",
-    icon: "book-open-variant",
-    backgroundColor: colors.purple,
-    value: 2,
+    value: 8,
+    icon: { name: "book-open", bgColor: "#9B68E2" },
   },
   {
     label: "Other",
-    icon: "folder-outline",
-    backgroundColor: colors.grey,
-    value: 1,
+    value: 9,
+    icon: { name: "application", bgColor: "#7C8CA1" },
   },
 ];
 
 const ListingEditScreen = () => {
   const location = useLocation();
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+
+  const initialValues: ListingEditType = validationSchema.default();
+
+  const handleSubmit = async (
+    form: ListingEditType,
+    formikHelpers: FormikHelpers<ListingEditType>
+  ) => {
+    setUploadVisible(true);
+    const response = await listingsApi.addListing(form, (progress: number) =>
+      setUploadProgress(progress)
+    );
+
+    if (!response.ok) {
+      setUploadVisible(false);
+      console.log(response);
+
+      return alert("Couldn't add new listing");
+    }
+
+    formikHelpers.resetForm();
+
+    console.log("Response", response);
+  };
+
+  const onDone = () => {
+    setUploadVisible(false);
+  };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
+      <UploadScreen
+        progress={uploadProgress}
+        visible={uploadVisible}
+        onDone={onDone}
+      />
       <AppForm
         validationSchema={validationSchema}
-        initialValues={{
-          title: "",
-          price: "",
-          description: "",
-          category: null,
-          images: [],
-        }}
-        onSubmit={() => console.log(location)}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
       >
         <FormImagePicker name="images" />
+
         <FormField maxLength={255} name="title" placeholder="Title" />
+
         <FormField
           maxLength={8}
           name="price"
           placeholder="Price"
           keyboardType="numeric"
         />
+
         <AppFormPicker
-          numberofColumns={3}
           name="category"
           placeholder="Category"
           items={categories}
           PickerItemComponent={CategoryPickerItem}
+          numberofColumns={3}
         />
+
         <FormField
           name="description"
           placeholder="Description"
           multiline
-          numberOfLines={3}
-          maxLength={255}
+          numberOfLines={5}
+          textAlignVertical="top"
         />
+
         <SubmitButton title="POST" />
       </AppForm>
     </Screen>
@@ -113,14 +138,3 @@ const ListingEditScreen = () => {
 };
 
 export default ListingEditScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20,
-    flexDirection: "column",
-    margin: 5,
-  },
-  error: {
-    marginTop: 5,
-  },
-});

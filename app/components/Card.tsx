@@ -7,15 +7,20 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 interface CardProps {
   title: string;
   subTitle: string;
-  image: ImageProps["source"];
+  imageUrl: ImageProps["source"];
   onPress: () => void;
 }
 
-export default function Card({ title, subTitle, image, onPress }: CardProps) {
+export default function Card({
+  title,
+  subTitle,
+  imageUrl,
+  onPress,
+}: CardProps) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
-        <Image style={styles.image} source={image} />
+        <Image style={styles.image} source={imageUrl} />
         <View style={styles.details}>
           <AppText style={styles.title} numberOfLines={1}>
             {title}
