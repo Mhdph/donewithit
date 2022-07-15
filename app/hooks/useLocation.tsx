@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
-export interface LocationProps {
+type LocationProps = {
   latitude: number;
   longitude: number;
-}
+} | null;
 
 export const useLocation = (): LocationProps | undefined => {
   const [location, setLocation] = useState<LocationProps | undefined>();
