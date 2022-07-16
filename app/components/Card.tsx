@@ -1,13 +1,15 @@
-import { StyleSheet, View, Image, ImageProps } from "react-native";
+import { StyleSheet, View, ImageProps } from "react-native";
 import React from "react";
 import colors from "../config/colors";
 import AppText from "./AppText";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { Image } from "react-native-expo-image-cache";
 
 interface CardProps {
   title: string;
   subTitle: string;
-  imageUrl: ImageProps["source"];
+  imageUrl: string;
+  thumbnailUrl: string;
   onPress: () => void;
 }
 
@@ -16,11 +18,17 @@ export default function Card({
   subTitle,
   imageUrl,
   onPress,
+  thumbnailUrl,
 }: CardProps) {
   return (
     <TouchableWithoutFeedback onPress={onPress}>
       <View style={styles.card}>
-        <Image style={styles.image} source={imageUrl} />
+        <Image
+          style={styles.image}
+          preview={{ uri: thumbnailUrl }}
+          uri={imageUrl}
+          tint="light"
+        />
         <View style={styles.details}>
           <AppText style={styles.title} numberOfLines={1}>
             {title}
