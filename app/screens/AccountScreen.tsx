@@ -1,11 +1,13 @@
 import { StyleSheet, FlatList, View, Text } from "react-native";
-import React from "react";
+import React, { useContext } from "react";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
 import ListItemSeprator from "../components/lists/ListItemSeprator";
 import { Screen } from "../components/Screen";
 import { ListItem } from "../components/lists/ListItem";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { AuthContext } from "../auth/context";
+import { useAuth } from "../auth/useAuth";
 
 interface MenuItem {
   id: number;
@@ -38,48 +40,43 @@ const menuItems: MenuItem[] = [
   },
 ];
 
-const user = {
-  name: "mahdi",
-  email: "mahdi@gmail.com",
-};
-
 interface AccountProps extends NativeStackScreenProps<any> {}
 
 const AccountScreen = ({ navigation }: AccountProps) => {
+  const { user, logOut } = useAuth();
+
   return (
     <Screen style={styles.screen}>
-      <View>
+      <View style={styles.container}>
         <ListItem
+          title={user?.name || "unknown"}
+          subtitle={user?.email}
           image={require("../assets/mosh.jpg")}
-          subtitle={user.email}
-          title={user.name}
         />
       </View>
-
       <View style={styles.container}>
         <FlatList
           data={menuItems}
-          keyExtractor={(menuItem) => menuItem.id.toString()}
+          keyExtractor={(item) => item.title}
+          ItemSeparatorComponent={ListItemSeprator}
           renderItem={({ item }) => (
             <ListItem
               title={item.title}
               IconComponent={
                 <Icon
-                  backgroundColor={item.icon.backgroundColor}
                   name={item.icon.name}
+                  backgroundColor={item.icon.backgroundColor}
                 />
               }
               onPress={() => navigation.navigate(item.targetScreen)}
             />
           )}
-          ItemSeparatorComponent={ListItemSeprator}
         />
       </View>
       <ListItem
-        title="Logout"
-        IconComponent={
-          <Icon backgroundColor={colors.lightYellow} name="logout" />
-        }
+        title="Log Out"
+        IconComponent={<Icon name="logout" backgroundColor="#ffe66d" />}
+        onPress={logOut}
       />
     </Screen>
   );

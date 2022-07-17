@@ -1,33 +1,29 @@
 import React from "react";
 import { Formik, FormikHelpers } from "formik";
 
-interface AppFormInterface<Values> {
-  initialValues: Values;
-  children: React.ReactNode;
-  validationSchema?: any | (() => any);
-  onSubmit(
-    values: Values,
-    formikHelpers: FormikHelpers<Values>
-  ): void | Promise<any>;
-}
-
-const AppForm = function <Values>(
-  props: AppFormInterface<Values>
-): React.ReactElement {
-  const { initialValues, onSubmit, validationSchema, children, ...rest } =
-    props;
-
+type Props = {
+  initialValues: Object;
+  onSubmit: ((
+    values: any,
+    formikHelpers: FormikHelpers<Object>
+  ) => void | Promise<any>) &
+    Function;
+  validationSchema?: Object;
+  children?: React.ReactNode;
+};
+export const AppForm = ({
+  initialValues,
+  onSubmit,
+  validationSchema,
+  children,
+}: Props) => {
   return (
     <Formik
-      {...rest}
-      validationSchema={validationSchema}
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validateOnMount={true}
+      validationSchema={validationSchema}
     >
-      {() => children}
+      {() => <>{children}</>}
     </Formik>
   );
 };
-
-export default AppForm;
