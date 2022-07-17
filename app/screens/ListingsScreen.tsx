@@ -5,7 +5,7 @@ import Card from "../components/Card";
 import colors from "../config/colors";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import routes from "../navigation/routes";
-import { useApi } from "../hooks/useApi";
+import useApi from "../hooks/useApi";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import Activityindicator from "../components/Activityindicator";

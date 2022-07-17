@@ -9,6 +9,11 @@ import {
   FormField,
   SubmitButton,
 } from "../components/forms";
+import { login } from "../api/auth";
+import { useAuth } from "../auth/useAuth";
+import useApi from "../hooks/useApi";
+import { register } from "../api/users";
+import Activityindicator from "../components/Activityindicator";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -17,15 +22,40 @@ const validationSchema = Yup.object().shape({
 });
 const initialValues = { name: "", email: "", password: "" };
 
-const handleSubmit = () => {
-  console.log("salam");
+type User = {
+  name: string;
+  email: string;
+  password: string;
 };
 
 const RegisterScreen = () => {
+  const registerApi = useApi(register);
+  const loginApi = useApi(login);
+  const { logIn } = useAuth();
   const [error, setError] = useState("");
+
+  const handleSubmit = async (userInfo: User): Promise<void> => {
+    const result = await registerApi.request(userInfo);
+
+    if (!result.ok) {
+      if (result.data) setError(result.data?.error);
+      else {
+        setError("An unexpected error occurred.");
+        console.log(result);
+      }
+      return;
+    }
+
+    const { data: authToken } = await loginApi.request(
+      userInfo.email,
+      userInfo.password
+    );
+    logIn(authToken as string);
+  };
 
   return (
     <>
+      <Activityindicator visible={registerApi.loading || loginApi.loading} />
       <Screen style={styles.container}>
         <ErrorMessage visible={error ? true : false} error={error as string} />
         <AppForm

@@ -1,31 +1,35 @@
-import { useState } from "react";
+import { ApiResponse } from "apisauce";
+import React, { useState } from "react";
 
-interface useApiReturn<T> {
-  request(...args: any[]): Promise<T>;
-  data: T;
-  error: boolean;
+interface ResponseProps {
+  data: any;
   loading: boolean;
+  error: boolean;
+  request(...args: any[]): Promise<ApiResponse<any>>;
 }
 
-export const useApi = (callback: Function): useApiReturn<any> => {
-  const [data, setData] = useState([]);
-  const [error, setError] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+type Props = (...args: any[]) => Promise<ApiResponse<any>>;
+
+const useApi = (apiRequest: Props): ResponseProps => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const request = async (...args: any[]) => {
+    setError(false);
+
     setLoading(true);
-    const response = await callback(...args);
+    const response = await apiRequest(...args);
     setLoading(false);
 
     setError(!response.ok);
     setData(response.data);
-
-    if (!response.ok) {
-      return response;
-    }
+    console.log(response);
 
     return response;
   };
 
-  return { request, data, error, loading };
+  return { data, loading, error, request };
 };
+
+export default useApi;
