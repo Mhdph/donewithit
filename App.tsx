@@ -8,6 +8,7 @@ import OfflineNotice from "./app/components/OfflineNotice";
 import AppLoading from "expo-app-loading";
 import { AuthContext } from "./app/auth/context";
 import { getUser } from "./app/auth/storage";
+import { navigationRef } from "./app/navigation/rootNavigation";
 
 interface User {
   name: string;
@@ -47,8 +48,8 @@ export default function App() {
   return (
     <AuthContext.Provider value={{ user, setUser } as UserState}>
       <OfflineNotice />
-      <NavigationContainer theme={navigationTheme}>
-        {user ? <AppNavigator /> : <AppNavigator />}
+      <NavigationContainer ref={navigationRef} theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>
   );
